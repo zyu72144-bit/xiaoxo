@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="曾钰的个人网站，记录对AI产品真实场景、用户信任、价值验证与产品复盘的持续思考。">
+  <meta name="theme-color" content="#0d0d0d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src 'self' data:; media-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none';">
+  <title>曾钰 - 在真实问题中验证AI价值的产品经理</title>
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    :root {
+      --black: #0d0d0d;
+      --black-soft: #131313;
+      --black-raised: #191919;
+      --line: rgba(255, 255, 255, 0.11);
+      --line-dark: rgba(13, 13, 13, 0.15);
+      --white: #f4f3ef;
+      --white-soft: rgba(244, 243, 239, 0.68);
+      --white-muted: rgba(244, 243, 239, 0.42);
+      --paper: #e8e6df;
+      --mist: #a8bec0;
+      --mist-deep: #6f8c90;
+      --teal: #49656a;
+      --teal-deep: #263b3f;
+      --max-width: 1240px;
+      --nav-height: 62px;
+      --radius: 24px;
+      --radius-sm: 18px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      color-scheme: dark;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--black);
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      background: var(--black);
+      color: var(--white-soft);
+      font-family: Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    ::selection {
+      background: var(--mist);
+      color: var(--black);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--white);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1000;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--black);
+      transform: translateY(-170%);
+      transition: transform 180ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      padding: 14px 20px 0;
+      pointer-events: none;
+    }
+
+    .nav-shell {
+      width: min(100%, var(--max-width));
+      min-height: var(--nav-height);
+      margin: 0 auto;
+      padding: 0 12px 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(13, 13, 13, 0.84);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      pointer-events: auto;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--paper);
+      color: var(--black);
+      font-size: 9px;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .nav-links a {
+      padding: 9px 11px;
+      border-radius: 999px;
+      color: var(--white-muted);
+      font-size: 12px;
+      transition: color 200ms ease, background 200ms ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--white);
+    }
+
+    .nav-cta {
+      padding: 9px 14px !important;
+      background: var(--white) !important;
+      color: var(--black) !important;
+    }
+
+    .menu-toggle {
+      display: none;
+      padding: 8px 13px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--black);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero,
+    .section,
+    #contact {
+      scroll-margin-top: calc(var(--nav-height) + 34px);
+    }
+
+    .hero {
+      min-height: 100svh;
+      padding: 132px 24px 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .container {
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .hero-topline {
+      margin-bottom: 40px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 34px;
+    }
+
+    .hello-lockup {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .hello-disc {
+      width: clamp(58px, 6.4vw, 84px);
+      height: clamp(58px, 6.4vw, 84px);
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--paper);
+      color: var(--black);
+      font-size: clamp(0.8rem, 1.4vw, 1rem);
+      font-weight: 700;
+      letter-spacing: -0.06em;
+      transition: transform 420ms var(--ease);
+    }
+
+    .hello-lockup:hover .hello-disc {
+      transform: rotate(-8deg) scale(1.04);
+    }
+
+    .hero h1 {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(3rem, 7.2vw, 6.8rem);
+      font-weight: 500;
+      letter-spacing: -0.065em;
+      line-height: 0.96;
+    }
+
+    .hero-copy {
+      max-width: 540px;
+      padding-top: 8px;
+      text-align: right;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      color: var(--white-soft);
+      font-size: clamp(0.92rem, 1.5vw, 1.08rem);
+      line-height: 1.8;
+    }
+
+    .hero-copy strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .hero-copy a {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--white);
+      font-size: 12px;
+      transition: background 200ms ease, transform 200ms var(--ease);
+    }
+
+    .hero-copy a:hover {
+      background: rgba(255, 255, 255, 0.07);
+      transform: translateY(-2px);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-auto-rows: 222px;
+      gap: 12px;
+    }
+
+    .card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--black-raised);
+      transition: transform 420ms var(--ease), border-color 260ms ease;
+    }
+
+    .card:hover {
+      z-index: 2;
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-4px);
+    }
+
+    .js .card.reveal.is-visible:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--white-muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .card-label::before {
+      content: "✦";
+      font-size: 8px;
+    }
+
+    .portrait-card {
+      grid-column: span 4;
+      grid-row: span 2;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--mist-deep);
+      color: var(--white);
+    }
+
+    .portrait-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      background: var(--mist-deep);
+      text-align: center;
+    }
+
+    .portrait-placeholder::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+    }
+
+    .placeholder-text {
+      position: relative;
+      z-index: 1;
+      max-width: 240px;
+      padding: 13px 15px;
+      border-radius: 12px;
+      background: rgba(13, 13, 13, 0.54);
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .placeholder-text strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .portrait-card .card-label,
+    .portrait-meta {
+      position: relative;
+      z-index: 2;
+    }
+
+    .portrait-meta {
+      display: grid;
+      gap: 7px;
+    }
+
+    .meta-row {
+      padding-top: 8px;
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 10px;
+    }
+
+    .meta-row span:first-child {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .manifesto-card {
+      grid-column: span 4;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--teal-deep);
+    }
+
+    .manifesto-card blockquote {
+      margin: 0;
+      max-width: 410px;
+      color: var(--white);
+      font-size: clamp(1.15rem, 2vw, 1.6rem);
+      font-weight: 400;
+      letter-spacing: -0.035em;
+      line-height: 1.35;
+    }
+
+    .manifesto-card p {
+      margin: 16px 0 0;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 11px;
+    }
+
+    .stat-card {
+      grid-column: span 4;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--mist);
+      color: var(--black);
+      border-color: var(--line-dark);
+    }
+
+    .stat-card .card-label {
+      color: rgba(13, 13, 13, 0.5);
+    }
+
+    .stat-card strong {
+      display: block;
+      color: var(--black);
+      font-size: clamp(3.2rem, 6.5vw, 6rem);
+      font-weight: 500;
+      letter-spacing: -0.075em;
+      line-height: 0.9;
+    }
+
+    .stat-card p {
+      margin: 0;
+      color: rgba(13, 13, 13, 0.62);
+      font-size: 11px;
+    }
+
+    .visual-card {
+      grid-column: span 4;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--teal);
+    }
+
+    .visual-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      background: var(--teal);
+    }
+
+    .visual-placeholder::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
+    }
+
+    .visual-card .card-label,
+    .visual-card .visual-caption {
+      position: relative;
+      z-index: 2;
+    }
+
+    .visual-caption {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 14px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 11px;
+    }
+
+    .visual-caption span:last-child {
+      font-size: 20px;
+    }
+
+    .contact-card {
+      grid-column: span 4;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--paper);
+      color: var(--black);
+      border-color: var(--line-dark);
+    }
+
+    .contact-card .card-label {
+      color: rgba(13, 13, 13, 0.5);
+    }
+
+    .contact-card h2 {
+      margin: 0;
+      max-width: 330px;
+      color: var(--black);
+      font-size: clamp(1.5rem, 2.6vw, 2.3rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1.08;
+    }
+
+    .contact-card p {
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: rgba(13, 13, 13, 0.52);
+      font-size: 10px;
+    }
+
+    .section {
+      padding: 130px 24px;
+    }
+
+    .section-head {
+      margin-bottom: 44px;
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr) minmax(260px, 430px);
+      gap: 28px;
+      align-items: end;
+    }
+
+    .section-index,
+    .eyebrow {
+      color: var(--white-muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(2.6rem, 5.6vw, 5.4rem);
+      font-weight: 500;
+      letter-spacing: -0.06em;
+      line-height: 0.98;
+    }
+
+    .section-lead {
+      margin: 0;
+      color: var(--white-muted);
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .question-grid,
+    .reflection-grid,
+    .process-grid,
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .process-grid {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .question-card {
+      min-height: 280px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .question-card:nth-child(1) {
+      grid-column: span 7;
+      background: var(--paper);
+      color: var(--black);
+      border-color: var(--line-dark);
+    }
+
+    .question-card:nth-child(2) {
+      grid-column: span 5;
+      background: var(--mist-deep);
+    }
+
+    .question-card:nth-child(3) {
+      grid-column: span 12;
+      min-height: 230px;
+      background: var(--teal-deep);
+    }
+
+    .question-card .number {
+      color: currentColor;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      opacity: 0.45;
+    }
+
+    .question-card h3 {
+      max-width: 720px;
+      margin: 50px 0 0;
+      color: currentColor;
+      font-size: clamp(1.7rem, 3.5vw, 3.4rem);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 1.08;
+    }
+
+    .question-card p {
+      margin: 18px 0 0;
+      color: currentColor;
+      font-size: 12px;
+      opacity: 0.55;
+    }
+
+    .reflection-cover {
+      grid-column: span 8;
+      grid-row: span 2;
+      min-height: 500px;
+      display: grid;
+      place-items: center;
+      background: #68878a;
+    }
+
+    .reflection-cover::before {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border: 1px dashed rgba(255, 255, 255, 0.32);
+      border-radius: 16px;
+    }
+
+    .reflection-cover .placeholder-text {
+      max-width: 290px;
+      text-align: center;
+    }
+
+    .status-card,
+    .method-card {
+      grid-column: span 4;
+      min-height: 244px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .status-card {
+      background: var(--paper);
+      color: var(--black);
+      border-color: var(--line-dark);
+    }
+
+    .method-card {
+      background: var(--teal-deep);
+    }
+
+    .status-card .eyebrow {
+      color: rgba(13, 13, 13, 0.45);
+    }
+
+    .status-card h3,
+    .method-card h3 {
+      margin: 28px 0 0;
+      color: currentColor;
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 1.08;
+    }
+
+    .status-card p,
+    .method-card p {
+      margin: 14px 0 0;
+      color: currentColor;
+      font-size: 12px;
+      line-height: 1.7;
+      opacity: 0.56;
+    }
+
+    .method-flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 10px;
+    }
+
+    .method-flow span {
+      padding: 6px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+    }
+
+    .process-card {
+      grid-column: span 4;
+      min-height: 270px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .process-card:nth-child(1) {
+      grid-column: span 7;
+      background: var(--mist);
+      color: var(--black);
+      border-color: var(--line-dark);
+    }
+
+    .process-card:nth-child(2) {
+      grid-column: span 5;
+      background: var(--teal);
+    }
+
+    .process-card:nth-child(3),
+    .process-card:nth-child(4),
+    .process-card:nth-child(5) {
+      grid-column: span 4;
+    }
+
+    .process-card:nth-child(3) {
+      background: var(--paper);
+      color: var(--black);
+      border-color: var(--line-dark);
+    }
+
+    .process-card:nth-child(4) {
+      background: var(--black-raised);
+    }
+
+    .process-card:nth-child(5) {
+      background: var(--teal-deep);
+    }
+
+    .process-number {
+      color: currentColor;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 500;
+      letter-spacing: -0.08em;
+      line-height: 0.9;
+      opacity: 0.92;
+    }
+
+    .process-card h3 {
+      margin: 0 0 8px;
+      color: currentColor;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.035em;
+    }
+
+    .process-card p {
+      max-width: 400px;
+      margin: 0;
+      color: currentColor;
+      font-size: 12px;
+      line-height: 1.7;
+      opacity: 0.55;
+    }
+
+    .about-card {
+      grid-column: span 7;
+      min-height: 450px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--paper);
+      color: var(--black);
+      border-color: var(--line-dark);
+    }
+
+    .about-card .eyebrow {
+      color: rgba(13, 13, 13, 0.44);
+    }
+
+    .about-card h2 {
+      max-width: 760px;
+      margin: 30px 0;
+      color: var(--black);
+      font-size: clamp(2.7rem, 6vw, 6rem);
+      font-weight: 500;
+      letter-spacing: -0.065em;
+      line-height: 0.96;
+    }
+
+    .about-card p {
+      max-width: 610px;
+      margin: 0;
+      color: rgba(13, 13, 13, 0.58);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .contact-panel {
+      grid-column: span 5;
+      min-height: 450px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--teal);
+    }
+
+    .contact-panel h2 {
+      margin: 34px 0 0;
+      color: var(--white);
+      font-size: clamp(2.1rem, 4vw, 4rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 1;
+    }
+
+    .contact-list {
+      margin: 34px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      list-style: none;
+    }
+
+    .contact-list li {
+      padding: 13px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 12px;
+    }
+
+    .contact-list span:last-child {
+      color: rgba(255, 255, 255, 0.42);
+    }
+
+    .contact-note {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .footer {
+      padding: 34px 24px 44px;
+    }
+
+    .footer-inner {
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--white-muted);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 760ms var(--ease), transform 760ms var(--ease);
+    }
+
+    .js .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 {
+      transition-delay: 80ms !important;
+    }
+
+    .delay-2 {
+      transition-delay: 160ms !important;
+    }
+
+    .delay-3 {
+      transition-delay: 240ms !important;
+    }
+
+    @media (max-width: 980px) {
+      .hero-topline {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero-copy {
+        max-width: 680px;
+        padding-left: calc(clamp(58px, 6.4vw, 84px) + 18px);
+        text-align: left;
+      }
+
+      .portrait-card {
+        grid-column: span 6;
+      }
+
+      .manifesto-card,
+      .stat-card,
+      .visual-card,
+      .contact-card {
+        grid-column: span 6;
+      }
+
+      .section-head {
+        grid-template-columns: 110px minmax(0, 1fr);
+      }
+
+      .section-lead {
+        grid-column: 2;
+      }
+
+      .reflection-cover {
+        grid-column: span 7;
+      }
+
+      .status-card,
+      .method-card {
+        grid-column: span 5;
+      }
+
+      .process-card:nth-child(n) {
+        grid-column: span 6;
+      }
+
+      .process-card:last-child {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 760px) {
+      :root {
+        --nav-height: 56px;
+        --radius: 20px;
+      }
+
+      .site-header {
+        padding: 10px 12px 0;
+      }
+
+      .nav-shell {
+        min-height: var(--nav-height);
+        padding: 0 10px 0 13px;
+        overflow: visible;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 12px;
+        right: 12px;
+        padding: 10px;
+        display: grid;
+        gap: 2px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(13, 13, 13, 0.97);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity 180ms ease, visibility 180ms ease, transform 180ms ease;
+      }
+
+      .nav-links.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .nav-links a {
+        padding: 12px;
+      }
+
+      .nav-cta {
+        margin-top: 4px;
+        text-align: center;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 112px 16px 32px;
+      }
+
+      .hello-lockup {
+        gap: 12px;
+      }
+
+      .hello-disc {
+        width: 54px;
+        height: 54px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.8rem, 13vw, 4.4rem);
+      }
+
+      .hero-copy {
+        padding-left: 66px;
+      }
+
+      .bento-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: auto;
+      }
+
+      .portrait-card {
+        grid-column: span 1;
+        grid-row: span 2;
+        min-height: 500px;
+      }
+
+      .manifesto-card,
+      .stat-card,
+      .visual-card,
+      .contact-card {
+        grid-column: span 1;
+        min-height: 244px;
+      }
+
+      .section {
+        padding: 100px 16px;
+      }
+
+      .section-head {
+        margin-bottom: 30px;
+        grid-template-columns: 1fr;
+        gap: 13px;
+      }
+
+      .section-lead {
+        grid-column: auto;
+      }
+
+      .question-card:nth-child(n),
+      .reflection-cover,
+      .status-card,
+      .method-card,
+      .process-card:nth-child(n),
+      .about-card,
+      .contact-panel {
+        grid-column: span 12;
+      }
+
+      .question-card:nth-child(n) {
+        min-height: 240px;
+      }
+
+      .reflection-cover {
+        grid-row: auto;
+        min-height: 400px;
+      }
+
+      .status-card,
+      .method-card,
+      .process-card {
+        min-height: 235px;
+      }
+
+      .about-card,
+      .contact-panel {
+        min-height: 390px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero-topline {
+        margin-bottom: 28px;
+      }
+
+      .hero-copy {
+        padding-left: 0;
+      }
+
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait-card,
+      .manifesto-card,
+      .stat-card,
+      .visual-card,
+      .contact-card {
+        grid-column: auto;
+      }
+
+      .portrait-card {
+        grid-row: auto;
+        min-height: 520px;
+      }
+
+      .manifesto-card,
+      .stat-card,
+      .visual-card,
+      .contact-card {
+        min-height: 230px;
+      }
+
+      .section-title {
+        font-size: clamp(2.5rem, 14vw, 4rem);
+      }
+
+      .about-card,
+      .contact-panel {
+        padding: 28px 24px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        transition-delay: 0ms !important;
+      }
+
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="主导航">
+      <a class="brand" href="#home" aria-label="曾钰，返回首页">
+        <span class="brand-mark" aria-hidden="true">ZY</span>
+        <span>曾钰</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">菜单</button>
+
+      <div class="nav-links" id="primary-navigation">
+        <a href="#questions">关注的问题</a>
+        <a href="#reflections">判断与复盘</a>
+        <a href="#process">工作方式</a>
+        <a href="#about">关于我</a>
+        <a class="nav-cta" href="#contact">保持联系</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero-topline">
+          <div class="hello-lockup reveal">
+            <span class="hello-disc" aria-hidden="true">ZY</span>
+            <h1 id="hero-title">你好，我是曾钰。</h1>
+          </div>
+
+          <div class="hero-copy reveal delay-1">
+            <p><strong>AI产品经理。</strong>我关心的不只是AI能做什么，更是它该不该做。通过真实问题、产品判断与持续复盘，验证AI是否真正创造价值。</p>
+            <a href="#questions">开始了解我 <span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+
+        <div class="bento-grid" aria-label="个人概览">
+          <article class="card portrait-card reveal">
+            <span class="card-label">Portrait</span>
+            <div class="portrait-placeholder" role="img" aria-label="个人形象照片占位，建议尺寸1200乘1500，比例4比5">
+              <span class="placeholder-text">
+                <strong>个人形象照片占位</strong>
+                建议尺寸：1200 × 1500（4:5）<br>
+                建议内容：自然光、低饱和、半身或环境人像
+              </span>
+            </div>
+            <div class="portrait-meta">
+              <div class="meta-row"><span>2024—NOW</span><span>AI产品方向</span></div>
+              <div class="meta-row"><span>FOCUS</span><span>真实问题与价值验证</span></div>
+              <div class="meta-row"><span>METHOD</span><span>判断 · 验证 · 复盘</span></div>
+            </div>
+          </article>
+
+          <article class="card manifesto-card reveal delay-1">
+            <span class="card-label">Core belief</span>
+            <div>
+              <blockquote>“不是所有能被AI完成的事，都值得被做成AI产品。”</blockquote>
+              <p>我的产品判断起点</p>
+            </div>
+          </article>
+
+          <article class="card visual-card reveal delay-2">
+            <span class="card-label">Visual context</span>
+            <div class="visual-placeholder" role="img" aria-label="工作场景氛围图占位，建议尺寸1600乘1200，比例4比3">
+              <span class="placeholder-text">
+                <strong>工作场景氛围图占位</strong>
+                建议尺寸：1600 × 1200（4:3）<br>
+                建议内容：产品讨论、用户场景或抽象AI影像
+              </span>
+            </div>
+            <div class="visual-caption">
+              <span>观察真实场景，而不是追逐热词</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+          </article>
+
+          <article class="card stat-card reveal delay-1">
+            <span class="card-label">Direction</span>
+            <strong>2024→</strong>
+            <p>进入AI产品方向，并持续整理自己的判断与复盘。</p>
+          </article>
+
+          <article class="card contact-card reveal delay-2">
+            <span class="card-label">Open to conversation</span>
+            <h2>如果你也在思考AI如何进入真实场景，欢迎交流。</h2>
+            <p><span>联系方式待补充</span><span aria-hidden="true">↗</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="questions" aria-labelledby="questions-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-index">01 / Questions</span>
+          <h2 class="section-title" id="questions-title">我关注的问题</h2>
+          <p class="section-lead">AI能力只有进入具体场景、面对真实用户并接受结果检验，才可能成为产品价值。</p>
+        </header>
+
+        <div class="question-grid">
+          <article class="card question-card reveal">
+            <span class="number">01 / SCENARIO</span>
+            <div>
+              <h3>什么场景真的需要AI？</h3>
+              <p>先判断问题是否成立，再讨论AI能力如何进入。</p>
+            </div>
+          </article>
+
+          <article class="card question-card reveal delay-1">
+            <span class="number">02 / TRUST</span>
+            <div>
+              <h3>用户为什么愿意信任AI给出的结果？</h3>
+              <p>产品价值不仅来自生成结果，也来自可理解、可判断和可纠正。</p>
+            </div>
+          </article>
+
+          <article class="card question-card reveal">
+            <span class="number">03 / VALUE</span>
+            <div>
+              <h3>AI功能的价值应该如何被验证？</h3>
+              <p>不止看功能是否上线，也看真实使用、结果质量与决策是否因此改善。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reflections" aria-labelledby="reflections-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-index">02 / Reflections</span>
+          <h2 class="section-title" id="reflections-title">判断与复盘</h2>
+          <p class="section-lead">内容不求多，只求让问题、依据、结果和修正都能被看见。</p>
+        </header>
+
+        <div class="reflection-grid">
+          <div class="card reflection-cover reveal" role="img" aria-label="复盘文章封面图占位，建议尺寸1600乘900，比例16比9">
+            <span class="placeholder-text">
+              <strong>复盘文章封面图占位</strong>
+              建议尺寸：1600 × 900（16:9）<br>
+              建议内容：真实场景、产品界面局部或与文章判断相关的概念图
+            </span>
+          </div>
+
+          <article class="card status-card reveal delay-1">
+            <span class="eyebrow">Content status</span>
+            <div>
+              <h3>内容正在形成。</h3>
+              <p>第一篇真实复盘准备好后会在这里出现。在那之前，不用虚构案例填满页面。</p>
+            </div>
+          </article>
+
+          <article class="card method-card reveal delay-2">
+            <span class="eyebrow">Writing method</span>
+            <div>
+              <h3>把判断过程完整留下。</h3>
+              <p>每篇复盘都会呈现从问题到修正的完整链路。</p>
+            </div>
+            <div class="method-flow" aria-label="复盘结构">
+              <span>问题</span>
+              <span>判断</span>
+              <span>依据</span>
+              <span>结果</span>
+              <span>反思</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="process" aria-labelledby="process-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-index">03 / Process</span>
+          <h2 class="section-title" id="process-title">我的工作方式</h2>
+          <p class="section-lead">把好奇变成问题，把判断变成验证，再把结果变成下一次更可靠的决策。</p>
+        </header>
+
+        <ol class="process-grid">
+          <li class="card process-card reveal">
+            <span class="process-number">01</span>
+            <div>
+              <h3>定义问题</h3>
+              <p>先厘清用户、场景和约束，避免从一个预设功能开始。</p>
+            </div>
+          </li>
+
+          <li class="card process-card reveal delay-1">
+            <span class="process-number">02</span>
+            <div>
+              <h3>判断必要性</h3>
+              <p>确认AI是否真的必要，也检查是否存在更简单可靠的方案。</p>
+            </div>
+          </li>
+
+          <li class="card process-card reveal">
+            <span class="process-number">03</span>
+            <div>
+              <h3>最小验证</h3>
+              <p>用最小范围检验关键假设，让风险和价值尽早显现。</p>
+            </div>
+          </li>
+
+          <li class="card process-card reveal delay-1">
+            <span class="process-number">04</span>
+            <div>
+              <h3>观察反馈</h3>
+              <p>关注真实使用、信任建立和结果质量，而不只看功能完成。</p>
+            </div>
+          </li>
+
+          <li class="card process-card reveal delay-2">
+            <span class="process-number">05</span>
+            <div>
+              <h3>复盘修正</h3>
+              <p>记录判断偏差、保留有效经验，并调整下一轮行动。</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="about-grid">
+          <article class="card about-card reveal">
+            <span class="eyebrow">About Zeng Yu</span>
+            <div>
+              <h2 id="about-title">从真实问题开始。</h2>
+              <p>我是一名AI产品经理。2024年起进入AI产品方向，正在把每一次判断、验证和复盘整理成可以被看见的思考证据。这里不会堆砌热词，只呈现逐步形成的观点与方法。</p>
+            </div>
+          </article>
+
+          <aside class="card contact-panel reveal delay-1" id="contact" aria-labelledby="contact-title">
+            <div>
+              <span class="eyebrow">Contact</span>
+              <h2 id="contact-title">保持联系</h2>
+              <ul class="contact-list">
+                <li><span>邮箱</span><span>待补充</span></li>
+                <li><span>微信</span><span>待补充</span></li>
+                <li><span>当前方向</span><span>AI产品</span></li>
+              </ul>
+            </div>
+            <p class="contact-note">如果你也在思考AI如何进入真实场景，欢迎交流。</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>Zeng Yu · AI Product Manager</span>
+      <a href="#home">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const menuButton = document.querySelector('.menu-toggle');
+      const navigation = document.querySelector('.nav-links');
+      const navigationLinks = Array.from(document.querySelectorAll('.nav-links a'));
+      const revealElements = document.querySelectorAll('.reveal');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const closeMenu = () => {
+        navigation.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
+      };
+
+      menuButton.addEventListener('click', () => {
+        const willOpen = !navigation.classList.contains('open');
+        navigation.classList.toggle('open', willOpen);
+        menuButton.setAttribute('aria-expanded', String(willOpen));
+        document.body.classList.toggle('menu-open', willOpen);
+      });
+
+      navigationLinks.forEach((link) => link.addEventListener('click', closeMenu));
+
+      document.addEventListener('click', (event) => {
+        const shell = document.querySelector('.nav-shell');
+        if (!shell.contains(event.target)) closeMenu();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && navigation.classList.contains('open')) {
+          closeMenu();
+          menuButton.focus();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 760) closeMenu();
+      });
+
+      if (reducedMotion || !('IntersectionObserver' in window)) {
+        revealElements.forEach((element) => element.classList.add('is-visible'));
+      } else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -7% 0px'
+        });
+
+        revealElements.forEach((element) => revealObserver.observe(element));
+      }
+
+      const sectionIds = ['questions', 'reflections', 'process', 'about', 'contact'];
+      const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+
+      if ('IntersectionObserver' in window) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+          const visibleEntry = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+          if (!visibleEntry) return;
+
+          navigationLinks.forEach((link) => {
+            const target = link.getAttribute('href');
+            const isAboutGroup = visibleEntry.target.id === 'contact' && target === '#about';
+            const isActive = target === `#${visibleEntry.target.id}` || isAboutGroup;
+            link.classList.toggle('active', isActive);
+            if (isActive) {
+              link.setAttribute('aria-current', 'location');
+            } else {
+              link.removeAttribute('aria-current');
+            }
+          });
+        }, {
+          threshold: [0.18, 0.35, 0.55],
+          rootMargin: '-18% 0px -55% 0px'
+        });
+
+        sections.forEach((section) => sectionObserver.observe(section));
+      }
+    })();
+  </script>
+</body>
+</html>
